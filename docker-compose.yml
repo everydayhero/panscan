@@ -1,0 +1,26 @@
+run_mysql:
+  build: .
+  command: "/go/src/app/run.sh -d information_schema,performance_schema,sys,mysql mysql root:letmein@tcp(mysql:3306)/"
+  working_dir: "/go/src/app"
+  links:
+    - mysql
+
+test_mysql:
+  build: .
+  command: go test -v app
+  links:
+    - mysql
+  environment:
+    DB_DRIVER: "mysql"
+    DB_CONN: "root:letmein@tcp(mysql:3306)/"
+
+mysql:
+  image: mysql:latest
+  command: mysqld --general_log --general_log_file=/var/log/mysql/query.log
+  ports:
+    - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: letmein
+  volumes:
+    - ./fixtures:/docker-entrypoint-initdb.d
+
