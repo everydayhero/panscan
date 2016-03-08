@@ -41,18 +41,17 @@ func (m *multistring) String() string {
 func GetConfig() Config {
 	ignoredDatabases := multistring{}
 	ignoredTables := multistring{}
-	flagSet := flag.NewFlagSet("panscan", flag.ExitOnError)
 
-	flagSet.Var(&ignoredDatabases, "d", "A list of databases to ignore")
-	flagSet.Var(&ignoredTables, "t", "A list of tables to ignore")
-	flagSet.Parse(os.Args)
+	flag.Var(&ignoredDatabases, "d", "A list of databases to ignore")
+	flag.Var(&ignoredTables, "t", "A list of tables to ignore")
+	flag.Parse()
 
-	if flagSet.NArg() != 2 {
-		fmt.Println("Invalid arguments")
+	args := flag.Args()
+	if len(args) != 2 {
+		fmt.Println("The driver and connection string must be provided. Received: %s", args)
 		os.Exit(2)
 	}
 
-	args := flagSet.Args()
 	return Config{
 		Regex:            DefaultRegex,
 		IgnoredDatabases: ignoredDatabases,
