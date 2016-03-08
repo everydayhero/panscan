@@ -21,12 +21,14 @@ func main() {
 
 	fmt.Println("Running scan...")
 
-	err := d.Scan(results)
+	if err := d.Scan(results); err != nil {
+		fmt.Println(err)
+		os.Exit(2)
+		return
+	}
 
 	fmt.Printf("\nDetected %d items\n", count)
-
-	if err != nil {
-		fmt.Println(err)
+	if count != 0 {
 		os.Exit(1)
 	}
 }
