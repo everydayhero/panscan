@@ -26,7 +26,7 @@ func (c Column) Kind() reflect.Kind {
 
 func (c Column) Scan(results chan Result) error {
 	table := c.Database + "." + c.Table
-	rows, err := c.db.Table(table).Select(c.Name).Where(c.Name+" REGEXP ?", c.Config.Regex).Rows()
+	rows, err := c.db.Table(table).Select("`"+c.Name+"`").Where("`"+c.Name+"` REGEXP ?", c.Config.Regex).Rows()
 	if err != nil {
 		return err
 	}
