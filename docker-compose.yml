@@ -1,13 +1,12 @@
 run_mysql:
   build: .
-  command: "/go/src/app/run.sh -d information_schema,performance_schema,sys,mysql mysql root:letmein@tcp(mysql:3306)/"
-  working_dir: "/go/src/app"
+  command: "-d information_schema,performance_schema,sys,mysql mysql root:letmein@tcp(mysql:3306)/"
   links:
     - mysql
 
 test_mysql:
   build: .
-  command: go test -v app
+  command: "test"
   links:
     - mysql
   environment:
