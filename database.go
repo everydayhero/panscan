@@ -19,7 +19,7 @@ func (d Database) Scan(r chan Result) error {
 	}
 	defer db.Close()
 
-	for _, col := range GetColumns(&db, c) {
+	for _, col := range GetColumns(db, c) {
 		if col.Kind() != reflect.String {
 			continue
 		}

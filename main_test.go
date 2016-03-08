@@ -11,7 +11,7 @@ func open(c Config) *gorm.DB {
 		panic(err)
 	}
 
-	return &db
+	return db
 }
 
 func config() Config {
