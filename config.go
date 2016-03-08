@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -40,16 +41,18 @@ func (m *multistring) String() string {
 func GetConfig() Config {
 	ignoredDatabases := multistring{}
 	ignoredTables := multistring{}
+	flagSet := flag.NewFlagSet("panscan", flag.ExitOnError)
 
-	flag.Var(&ignoredDatabases, "d", "A list of databases to ignore")
-	flag.Var(&ignoredTables, "t", "A list of tables to ignore")
-	flag.Parse()
+	flagSet.Var(&ignoredDatabases, "d", "A list of databases to ignore")
+	flagSet.Var(&ignoredTables, "t", "A list of tables to ignore")
+	flagSet.Parse(os.Args)
 
-	if flag.NArg() != 2 {
-		panic("Invalid arguments")
+	if flagSet.NArg() != 2 {
+		fmt.Println("Invalid arguments")
+		os.Exit(2)
 	}
 
-	args := flag.Args()
+	args := flagSet.Args()
 	return Config{
 		Regex:            DefaultRegex,
 		IgnoredDatabases: ignoredDatabases,
