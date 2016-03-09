@@ -33,6 +33,9 @@ INSERT INTO creditcards (ccnumber, cctype) VALUES ("869934845122647", "voyager")
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("8699-3169-9537-961", "voyager");
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("1234123412341234", "invalid");
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("1234-1234-1234-1234", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("000000000000", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("0000000000000000", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("0000-0000-0000-0000", "invalid");
 
 CREATE TABLE posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -44,3 +47,4 @@ CREATE TABLE posts (
 
 INSERT INTO posts (published_date, published_time, title, body) VALUES (NOW(), NOW(), "Stuff", "It's amazing what stuff can do!");
 INSERT INTO posts (published_date, published_time, title, body) VALUES (NOW(), NOW(), "I want stuff!", "I want the ultrastuff 3000. My credit card number is 5520557624359492");
+INSERT INTO posts (published_date, published_time, title, body) VALUES (NOW(), NOW(), "Hey wiz1234567890123", "Want to increase the size of your cardboard?!? Ping me!");
