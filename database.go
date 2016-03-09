@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
@@ -19,7 +20,10 @@ func (d Database) Scan(r chan Result) error {
 	}
 	defer db.Close()
 
-	for _, col := range GetColumns(db, c) {
+	columns := GetColumns(db, c)
+	fmt.Printf("Scanning %d database columns", len(columns))
+
+	for _, col := range columns {
 		if col.Kind() != reflect.String {
 			continue
 		}
