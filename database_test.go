@@ -5,7 +5,7 @@ import (
 )
 
 func TestScan(t *testing.T) {
-	const expected = 22
+	const expected = 20
 	config := config()
 	d := NewDatabase(config)
 	results := make(chan Result)

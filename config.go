@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -18,6 +19,18 @@ type Config struct {
 	IgnoredDatabases []string
 	IgnoredTables    []string
 	Regex            string
+}
+
+func (c Config) Check(content string) bool {
+	re := regexp.MustCompile(c.Regex)
+
+	for _, s := range re.FindAllString(content, -1) {
+		if Check(s) {
+			return true
+		}
+	}
+
+	return false
 }
 
 type multistring []string

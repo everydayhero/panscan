@@ -22,7 +22,7 @@ func TestGetColumns(t *testing.T) {
 }
 
 func TestScanOnCreditCards(t *testing.T) {
-	const expected = 22
+	const expected = 20
 	config := config()
 	db := open(config)
 	defer db.Close()

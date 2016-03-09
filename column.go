@@ -37,7 +37,9 @@ func (c Column) Scan(results chan Result) error {
 		if err = rows.Scan(&value); err != nil {
 			break
 		}
-		results <- Result{Source: table, Loc: c.Name, Value: value}
+		if c.Config.Check(value) {
+			results <- Result{Source: table, Loc: c.Name, Value: value}
+		}
 	}
 
 	return nil
