@@ -21,7 +21,7 @@ func (d Database) Scan(r chan Result) error {
 	defer db.Close()
 
 	columns := GetColumns(db, c)
-	fmt.Printf("Scanning %d database columns", len(columns))
+	fmt.Printf("Scanning %d database columns\n", len(columns))
 
 	for _, col := range columns {
 		if col.Kind() != reflect.String {
