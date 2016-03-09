@@ -6,8 +6,12 @@ import (
 
 func TestConfigCheck(t *testing.T) {
 	var cases = map[string]bool{
-		"foo\nbar":              false,
-		"foo372079560813168bar": true,
+		"foo\nbar":                     false,
+		"foo372079560813168bar":        false,
+		"foo 372079560813168 bar":      true,
+		"foo 3720 7956 0813 168 bar":   true,
+		"foo 03720 7956 0813 168 bar":  false,
+		"foo 0 3720 7956 0813 168 bar": true,
 	}
 
 	c := Config{Regex: DefaultRegex}

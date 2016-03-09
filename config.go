@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	DefaultRegex = "[1-9]([0-9][ -]?){12,15}"
+	DefaultRegex = "(^|[[:blank:]])[1-9]([ -]?[0-9]){12,15}([[:blank:]]|$)"
 )
 
 type Config struct {
