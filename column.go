@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"reflect"
+	"strings"
 )
 
 type Column struct {
@@ -53,11 +54,18 @@ func GetColumns(db *gorm.DB, c Config) []Column {
 	columns := make([]Column, 0)
 	scope := db.Select("table_schema, table_name, column_name, data_type").Table("information_schema.columns")
 
-	if len(c.IgnoredDatabases) > 0 {
-		scope = scope.Where("table_schema NOT IN (?)", c.IgnoredDatabases)
-	}
-	if len(c.IgnoredTables) > 0 {
-		scope = scope.Where("table_name NOT IN (?)", c.IgnoredTables)
+	for _, ignore := range c.Ignores {
+		parts := strings.Split(ignore, ".")
+		switch len(parts) {
+		case 3:
+			scope = scope.Where("table_schema != ? AND table_name != ? AND column_name != ?", parts[0], parts[1], parts[2])
+		case 2:
+			scope = scope.Where("table_schema != ? AND table_name != ?", parts[0], parts[1])
+		case 1:
+			scope = scope.Where("table_schema != ?", parts[0])
+		default:
+			fmt.Printf("Ignoring filter %s because it's invalid\n", ignore)
+		}
 	}
 
 	rows, err := scope.Rows()

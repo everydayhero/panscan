@@ -14,11 +14,10 @@ const (
 )
 
 type Config struct {
-	Driver           string
-	Conn             string
-	IgnoredDatabases []string
-	IgnoredTables    []string
-	Regex            string
+	Driver  string
+	Conn    string
+	Ignores []string
+	Regex   string
 }
 
 func (c Config) Check(content string) bool {
@@ -52,11 +51,9 @@ func (m *multistring) String() string {
 }
 
 func GetConfig() Config {
-	ignoredDatabases := multistring{}
-	ignoredTables := multistring{}
+	ignores := multistring{}
 
-	flag.Var(&ignoredDatabases, "d", "A list of databases to ignore")
-	flag.Var(&ignoredTables, "t", "A list of tables to ignore")
+	flag.Var(&ignores, "i", "Ignores a database, table, or column. Format DATABASE[.TABLE[.COLUMN]]")
 	flag.Parse()
 
 	args := flag.Args()
@@ -66,10 +63,9 @@ func GetConfig() Config {
 	}
 
 	return Config{
-		Regex:            DefaultRegex,
-		IgnoredDatabases: ignoredDatabases,
-		IgnoredTables:    ignoredTables,
-		Driver:           args[0],
-		Conn:             args[1],
+		Regex:   DefaultRegex,
+		Ignores: ignores,
+		Driver:  args[0],
+		Conn:    args[1],
 	}
 }
