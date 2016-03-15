@@ -56,16 +56,9 @@ func GetColumns(db *gorm.DB, c Config) []Column {
 
 	for _, ignore := range c.Ignores {
 		parts := strings.Split(ignore, ".")
-		switch len(parts) {
-		case 3:
-			scope = scope.Where("table_schema != ? AND table_name != ? AND column_name != ?", parts[0], parts[1], parts[2])
-		case 2:
-			scope = scope.Where("table_schema != ? AND table_name != ?", parts[0], parts[1])
-		case 1:
-			scope = scope.Where("table_schema != ?", parts[0])
-		default:
-			fmt.Printf("Ignoring filter %s because it's invalid\n", ignore)
-		}
+		columns := strings.Join([]string{"table_schema", "table_name", "column_name"}[0:len(parts)], ", \".\", ")
+
+		scope = scope.Where("CONCAT("+columns+") != ?", ignore)
 	}
 
 	rows, err := scope.Rows()

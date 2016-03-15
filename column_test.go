@@ -9,7 +9,7 @@ const (
 )
 
 func TestGetColumns(t *testing.T) {
-	const expected = 8
+	const expected = 2
 	config := config()
 	db := open(config)
 	defer db.Close()
@@ -17,7 +17,7 @@ func TestGetColumns(t *testing.T) {
 	columns := GetColumns(db, config)
 
 	if len(columns) != expected {
-		t.Errorf("Expected %d columns but found %d", expected, len(columns))
+		t.Errorf("Expected %d columns but found %d: ", expected, len(columns), columns)
 	}
 }
 
