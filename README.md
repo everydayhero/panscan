@@ -18,8 +18,7 @@ docker run --rm -it panscan mysql root@tcp(localhost:3306)/
 
 ### Parameters
 
-* `-d name[,name]` - Ignore databases
-* `-t name[,name]` - Ignore tables
+* `-i database[.table[.column]][,...]` - Ignore database, table, or column
 
 ## Building
 
