@@ -36,6 +36,12 @@ INSERT INTO creditcards (ccnumber, cctype) VALUES ("1234-1234-1234-1234", "inval
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("000000000000", "invalid");
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("0000000000000000", "invalid");
 INSERT INTO creditcards (ccnumber, cctype) VALUES ("0000-0000-0000-0000", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("111111111111", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("1111111111111111", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("1111-1111-1111-1111", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("888888888888", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("8888888888888888", "invalid");
+INSERT INTO creditcards (ccnumber, cctype) VALUES ("8888-8888-8888-8888", "invalid");
 
 CREATE TABLE posts (
   id INT AUTO_INCREMENT PRIMARY KEY,
