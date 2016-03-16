@@ -19,6 +19,7 @@ func TestCheck(t *testing.T) {
 		"1234123412341234":    false,
 		"0000000000000000":    false,
 		"376031615608":        false,
+		"8888888888888888":    false,
 	}
 
 	for value, expected := range cases {
