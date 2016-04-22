@@ -14,8 +14,7 @@ const (
 )
 
 type Config struct {
-	Driver  string
-	Conn    string
+	Source  string
 	Ignores []string
 	Regex   string
 }
@@ -57,15 +56,14 @@ func GetConfig() Config {
 	flag.Parse()
 
 	args := flag.Args()
-	if len(args) != 2 {
-		fmt.Println("The driver and connection string must be provided. Received: %s", args)
+	if len(args) == 0 {
+		fmt.Errorf("No database connections provided.")
 		os.Exit(2)
 	}
 
 	return Config{
-		Regex:   DefaultRegex,
+		Source:  args[0],
 		Ignores: ignores,
-		Driver:  args[0],
-		Conn:    args[1],
+		Regex:   DefaultRegex,
 	}
 }

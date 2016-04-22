@@ -7,8 +7,7 @@ services:
     links:
       - mysql
     environment:
-      DB_DRIVER: "mysql"
-      DB_CONN: "root:letmein@tcp(mysql:3306)/"
+      SOURCE: "mysql://root:letmein@mysql"
 
   mysql:
     image: mysql:latest

@@ -6,7 +6,7 @@ import (
 )
 
 func open(c Config) *gorm.DB {
-	db, err := gorm.Open(c.Driver, c.Conn)
+	db, err := openDatabase(c.Source)
 	if err != nil {
 		panic(err)
 	}
@@ -16,8 +16,7 @@ func open(c Config) *gorm.DB {
 
 func config() Config {
 	return Config{
-		Driver: os.Getenv("DB_DRIVER"),
-		Conn:   os.Getenv("DB_CONN"),
+		Source: os.Getenv("SOURCE"),
 		Regex:  DefaultRegex,
 		Ignores: []string{
 			"information_schema",

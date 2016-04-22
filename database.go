@@ -2,9 +2,6 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
-	_ "github.com/lib/pq"
 	"reflect"
 )
 
@@ -14,7 +11,7 @@ type Database struct {
 
 func (d Database) Scan(r chan Result) error {
 	c := d.Config
-	db, err := gorm.Open(c.Driver, c.Conn)
+	db, err := openDatabase(c.Source)
 	if err != nil {
 		return err
 	}
