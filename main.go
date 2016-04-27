@@ -8,7 +8,12 @@ import (
 func main() {
 	var results = make(chan Result)
 
-	c := GetConfig()
+	c, err := GetConfig(os.Args)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(2)
+	}
+
 	d := NewDatabase(c)
 	count := 0
 

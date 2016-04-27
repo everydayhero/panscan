@@ -8,7 +8,7 @@ const (
 	TestDBName = "test_db"
 )
 
-func TestGetColumns(t *testing.T) {
+func Test__GetColumns(t *testing.T) {
 	const expected = 2
 	config := config()
 	db := open(config)
@@ -21,7 +21,7 @@ func TestGetColumns(t *testing.T) {
 	}
 }
 
-func TestScanOnCreditCards(t *testing.T) {
+func Test_Column__Scan_CreditCards(t *testing.T) {
 	const expected = 20
 	config := config()
 	db := open(config)
@@ -48,7 +48,7 @@ func TestScanOnCreditCards(t *testing.T) {
 	}
 }
 
-func TestScanOnPosts(t *testing.T) {
+func Test_Column__Scan_Posts(t *testing.T) {
 	const expected = 1
 	config := config()
 	db := open(config)

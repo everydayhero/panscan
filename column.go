@@ -9,7 +9,7 @@ import (
 
 type Column struct {
 	db       *gorm.DB
-	Config   Config
+	Config   *Config
 	Database string
 	Table    string
 	Name     string
@@ -50,7 +50,7 @@ func (c Column) String() string {
 	return fmt.Sprintf("{Database: \"%s\", Table: \"%s\", Name: \"%s\", Type: \"%s\"}", c.Database, c.Table, c.Name, c.Type)
 }
 
-func GetColumns(db *gorm.DB, c Config) []Column {
+func GetColumns(db *gorm.DB, c *Config) []Column {
 	columns := make([]Column, 0)
 	scope := db.Select("table_schema, table_name, column_name, data_type").Table("information_schema.columns")
 

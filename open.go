@@ -8,13 +8,8 @@ import (
 	"strings"
 )
 
-func openDatabase(rawurl string) (*gorm.DB, error) {
+func openDatabase(url *url.URL) (*gorm.DB, error) {
 	var conn string
-
-	url, err := url.Parse(rawurl)
-	if err != nil {
-		return nil, err
-	}
 
 	driver := url.Scheme
 	switch driver {

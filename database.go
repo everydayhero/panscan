@@ -6,7 +6,7 @@ import (
 )
 
 type Database struct {
-	Config Config
+	Config *Config
 }
 
 func (d Database) Scan(r chan Result) error {
@@ -33,6 +33,6 @@ func (d Database) Scan(r chan Result) error {
 	return nil
 }
 
-func NewDatabase(c Config) Database {
+func NewDatabase(c *Config) Database {
 	return Database{c}
 }
