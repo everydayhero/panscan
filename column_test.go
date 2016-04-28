@@ -8,19 +8,6 @@ const (
 	TestDBName = "test_db"
 )
 
-func Test__GetColumns(t *testing.T) {
-	const expected = 2
-	config := config()
-	db := open(config)
-	defer db.Close()
-
-	columns := GetColumns(db, config)
-
-	if len(columns) != expected {
-		t.Errorf("Expected %d columns but found %d: ", expected, len(columns), columns)
-	}
-}
-
 func Test_Column__Scan_CreditCards(t *testing.T) {
 	const expected = 20
 	config := config()

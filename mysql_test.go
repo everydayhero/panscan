@@ -4,6 +4,20 @@ import (
 	"testing"
 )
 
+func Test_MySQL__Columns(t *testing.T) {
+	const expected = 2
+	config := config()
+	db := open(config)
+	m := MySQL{config}
+	defer db.Close()
+
+	columns := m.Columns(db)
+
+	if len(columns) != expected {
+		t.Errorf("Expected %d columns but found %d: ", expected, len(columns), columns)
+	}
+}
+
 func Test_MySQL__Scan(t *testing.T) {
 	const expected = 20
 	config := config()

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"reflect"
-	"strings"
 )
 
 type Column struct {
@@ -48,31 +47,4 @@ func (c Column) Scan(results chan Result) error {
 
 func (c Column) String() string {
 	return fmt.Sprintf("{Database: \"%s\", Table: \"%s\", Name: \"%s\", Type: \"%s\"}", c.Database, c.Table, c.Name, c.Type)
-}
-
-func GetColumns(db *gorm.DB, c *Config) []Column {
-	columns := make([]Column, 0)
-	scope := db.Select("table_schema, table_name, column_name, data_type").Table("information_schema.columns")
-
-	for _, ignore := range c.Ignores {
-		parts := strings.Split(ignore, ".")
-		columns := strings.Join([]string{"table_schema", "table_name", "column_name"}[0:len(parts)], ", \".\", ")
-
-		scope = scope.Where("CONCAT("+columns+") != ?", ignore)
-	}
-
-	rows, err := scope.Rows()
-	if err != nil {
-		panic(err)
-	}
-
-	defer rows.Close()
-
-	for rows.Next() {
-		col := Column{db: db, Config: c}
-		rows.Scan(&col.Database, &col.Table, &col.Name, &col.Type)
-		columns = append(columns, col)
-	}
-
-	return columns
 }
