@@ -24,7 +24,7 @@ func main() {
 
 	fmt.Println("Running scan...")
 
-	if err := ScanDatabase(c, results); err != nil {
+	if err := ScanMySQL(c, results); err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 		return

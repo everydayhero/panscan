@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func Test_Database__Scan(t *testing.T) {
+func Test_MySQL__Scan(t *testing.T) {
 	const expected = 20
 	config := config()
-	d := Database{config}
+	m := MySQL{config}
 	results := make(chan Result)
 	count := 0
 
@@ -18,7 +18,7 @@ func Test_Database__Scan(t *testing.T) {
 		}
 	}()
 
-	if err := d.Scan(results); err != nil {
+	if err := m.Scan(results); err != nil {
 		t.Fatal(err)
 	}
 	close(results)

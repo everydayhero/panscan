@@ -5,12 +5,12 @@ import (
 	"reflect"
 )
 
-type Database struct {
+type MySQL struct {
 	Config *Config
 }
 
-func (d Database) Scan(r chan Result) error {
-	c := d.Config
+func (m MySQL) Scan(r chan Result) error {
+	c := m.Config
 	db, err := openDatabase(c.Source)
 	if err != nil {
 		return err
@@ -33,7 +33,7 @@ func (d Database) Scan(r chan Result) error {
 	return nil
 }
 
-func ScanDatabase(c *Config, r chan Result) error {
-	d := Database{c}
-	return d.Scan(r)
+func ScanMySQL(c *Config, r chan Result) error {
+	m := MySQL{c}
+	return m.Scan(r)
 }
