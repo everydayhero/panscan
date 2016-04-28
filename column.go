@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"reflect"
 )
 
 type Column struct {
@@ -13,15 +12,6 @@ type Column struct {
 	Table    string
 	Name     string
 	Type     string
-}
-
-func (c Column) Kind() reflect.Kind {
-	switch c.Type {
-	case "varchar", "char", "text":
-		return reflect.String
-	default:
-		return reflect.Invalid
-	}
 }
 
 func (c Column) Scan(results chan Result) error {

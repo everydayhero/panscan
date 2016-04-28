@@ -3,8 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
-	"reflect"
 	"strings"
+)
+
+var (
+	DataTypes = []string{"varchar", "char", "text"}
 )
 
 type MySQL struct {
@@ -14,6 +17,7 @@ type MySQL struct {
 func (m MySQL) Columns(db *gorm.DB) []Column {
 	columns := make([]Column, 0)
 	scope := db.Select("table_schema, table_name, column_name, data_type").Table("information_schema.columns")
+	scope = scope.Where("data_type IN (?)", DataTypes)
 
 	for _, ignore := range m.Config.Ignores {
 		parts := strings.Split(ignore, ".")
@@ -49,10 +53,6 @@ func (m MySQL) Scan(r chan Result) error {
 	fmt.Printf("Scanning %d database columns\n", len(columns))
 
 	for _, col := range columns {
-		if col.Kind() != reflect.String {
-			continue
-		}
-
 		if err := col.Scan(r); err != nil {
 			return err
 		}
