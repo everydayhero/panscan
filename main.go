@@ -7,15 +7,13 @@ import (
 
 func main() {
 	var results = make(chan Result)
+	var count int = 0
 
 	c, err := GetConfig(os.Args)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 	}
-
-	d := NewDatabase(c)
-	count := 0
 
 	go func() {
 		for r := range results {
@@ -26,7 +24,7 @@ func main() {
 
 	fmt.Println("Running scan...")
 
-	if err := d.Scan(results); err != nil {
+	if err := ScanDatabase(c, results); err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 		return

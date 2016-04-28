@@ -4,10 +4,10 @@ import (
 	"testing"
 )
 
-func TestScan(t *testing.T) {
+func Test_Database__Scan(t *testing.T) {
 	const expected = 20
 	config := config()
-	d := NewDatabase(config)
+	d := Database{config}
 	results := make(chan Result)
 	count := 0
 

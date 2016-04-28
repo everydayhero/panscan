@@ -33,6 +33,7 @@ func (d Database) Scan(r chan Result) error {
 	return nil
 }
 
-func NewDatabase(c *Config) Database {
-	return Database{c}
+func ScanDatabase(c *Config, r chan Result) error {
+	d := Database{c}
+	return d.Scan(r)
 }
