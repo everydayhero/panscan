@@ -9,7 +9,7 @@ func main() {
 	var results = make(chan Result)
 	var count int = 0
 
-	c, err := GetConfig(os.Args)
+	config, err := GetConfig(os.Args)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)
@@ -24,7 +24,7 @@ func main() {
 
 	fmt.Println("Running scan...")
 
-	if err := ScanMySQL(c, results); err != nil {
+	if err := ScanMySQL(config, results); err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 		return
