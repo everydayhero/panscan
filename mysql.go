@@ -16,12 +16,12 @@ type MySQL struct {
 
 func (m MySQL) Columns(db *gorm.DB) []Column {
 	columns := make([]Column, 0)
-	scope := db.Select("table_schema, table_name, column_name, data_type").Table("information_schema.columns")
-	scope = scope.Where("data_type IN (?)", DataTypes)
+	scope := db.Select("c1.table_schema, c1.table_name, c1.column_name, c2.column_name").Table("information_schema.columns c1").Joins("LEFT JOIN information_schema.columns c2 ON c1.table_schema = c2.table_schema AND c1.table_name = c2.table_name AND c2.column_key = 'PRI'")
+	scope = scope.Where("c1.data_type IN (?)", DataTypes)
 
 	for _, ignore := range m.Config.Ignores {
 		parts := strings.Split(ignore, ".")
-		columns := strings.Join([]string{"table_schema", "table_name", "column_name"}[0:len(parts)], ", \".\", ")
+		columns := strings.Join([]string{"c1.table_schema", "c1.table_name", "c1.column_name"}[0:len(parts)], ", \".\", ")
 
 		scope = scope.Where("CONCAT("+columns+") != ?", ignore)
 	}
@@ -35,7 +35,7 @@ func (m MySQL) Columns(db *gorm.DB) []Column {
 
 	for rows.Next() {
 		col := Column{db: db, Config: m.Config}
-		rows.Scan(&col.Database, &col.Table, &col.Name, &col.Type)
+		rows.Scan(&col.Database, &col.Table, &col.Name, &col.PrimaryKey)
 		columns = append(columns, col)
 	}
 

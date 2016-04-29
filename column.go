@@ -3,19 +3,20 @@ package main
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"strings"
 )
 
 type Column struct {
-	db       *gorm.DB
-	Config   *Config
-	Database string
-	Table    string
-	Name     string
-	Type     string
+	db         *gorm.DB
+	Config     *Config
+	Database   string
+	Table      string
+	Name       string
+	PrimaryKey string
 }
 
 func (c Column) Scan(results chan Result) error {
-	table := c.Database + "." + c.Table
+	table := joinString(".", c.Database, c.Table)
 	rows, err := c.db.Table(table).Select(c.Name).Rows()
 	if err != nil {
 		return err
@@ -28,7 +29,8 @@ func (c Column) Scan(results chan Result) error {
 			return err
 		}
 		if c.Config.Check(value) {
-			results <- Result{Source: table, Loc: c.Name, Value: value}
+			loc := joinString(".", c.Name, c.PrimaryKey)
+			results <- Result{Source: table, Loc: loc, Value: value}
 		}
 	}
 
@@ -36,5 +38,16 @@ func (c Column) Scan(results chan Result) error {
 }
 
 func (c Column) String() string {
-	return fmt.Sprintf("{Database: \"%s\", Table: \"%s\", Name: \"%s\", Type: \"%s\"}", c.Database, c.Table, c.Name, c.Type)
+	return fmt.Sprintf("{Database: \"%s\", Table: \"%s\", Name: \"%s\", PrimaryKey: \"%s\"}", c.Database, c.Table, c.Name, c.PrimaryKey)
+}
+
+func joinString(del string, a ...string) string {
+	b := a[:0]
+	for _, x := range a {
+		if x != "" {
+			b = append(b, x)
+		}
+	}
+
+	return strings.Join(b, del)
 }
